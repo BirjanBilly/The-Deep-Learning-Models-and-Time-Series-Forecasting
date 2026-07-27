@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Credentials and local settings
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+
+# Data and generated artifacts
+data/raw/
+data/processed/
+artifacts/
+logs/
+outputs/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.parquet
+
+# Archives and large local reports
+*.tar.gz
+*.zip

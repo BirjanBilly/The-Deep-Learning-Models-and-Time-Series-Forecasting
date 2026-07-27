@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "Please cite this software and accompanying report if you use the implementation."
+title: "RiskGraph: Regime-Gated Generative Models for Probabilistic Financial Forecasting"
+version: 1.7.1
+authors:
+  - family-names: "Buerjiang"
+    given-names: "Abuding"
+type: software
+abstract: "An EWMA-anchored probabilistic forecasting framework combining self-supervised Transformers, Tail-GAN, stress-shrunk GOM, chronological model promotion, and financial risk diagnostics."
+keywords:
+  - financial time series
+  - generative adversarial networks
+  - probabilistic forecasting
+  - quantile regression
+  - Transformer
+  - Value-at-Risk

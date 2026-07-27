@@ -1,0 +1,661 @@
+experiment:
+  name: financial_risk_graph_v1
+  seed: 42
+  output_dir: artifacts/financial_risk_graph_v1
+data:
+  start: '1993-01-29'
+  end: '2025-12-31'
+  target_ticker: SPY
+  tickers:
+  - SPY
+  - QQQ
+  - IWM
+  - XLK
+  - XLF
+  - XLE
+  - XLI
+  - XLV
+  - XLY
+  - XLP
+  - XLU
+  fred_series:
+    VIXCLS: vix
+    BAA10Y: baa_credit_spread
+    DGS2: treasury_2y
+    DGS10: treasury_10y
+    DFF: fed_funds
+    NFCI: nfci
+    STLFSI4: stlfsi
+    DCOILWTICO: wti_oil
+  macro_release_lag_days: 1
+  raw_dir: data/raw
+  processed_path: data/processed/market_panel_v150_core.npz
+  metadata_path: data/processed/market_panel_v150_core_metadata.json
+features:
+  lookback: 60
+  correlation_window: 60
+  graph_top_k: 4
+  horizons:
+  - 1
+  - 5
+  quantiles:
+  - 0.01
+  - 0.025
+  - 0.05
+  - 0.1
+  - 0.25
+  - 0.5
+  - 0.75
+  - 0.9
+  - 0.95
+  - 0.975
+  - 0.99
+splits:
+  development:
+  - name: crisis_2020
+    train_end: '2018-12-31'
+    validation_end: '2019-12-31'
+    test_end: '2020-12-31'
+  - name: inflation_2022
+    train_end: '2020-12-31'
+    validation_end: '2021-12-31'
+    test_end: '2022-12-31'
+  - name: recent_2024
+    train_end: '2022-12-31'
+    validation_end: '2023-12-31'
+    test_end: '2024-12-31'
+  final:
+    name: untouched_2025
+    train_end: '2023-12-31'
+    validation_end: '2024-12-31'
+    test_end: '2025-12-31'
+  embargo_days: 5
+model:
+  hidden_size: 64
+  lstm_layers: 1
+  attention_heads: 4
+  graph_heads: 4
+  graph_signal_mode: direction
+  dropout: 0.15
+  direction_loss_weight: 0.1
+training:
+  batch_size: 128
+  max_epochs: 40
+  patience: 7
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  gradient_clip: 1.0
+  num_workers: 1
+  precision: bf16
+  compile: false
+baselines:
+  historical_window: 750
+  ewma_lambda: 0.94
+  statistical_window: 1500
+  refit_every: 21
+tailrisk:
+  output_dir: artifacts/tailrisk_scenarios_v1
+  scenario_horizon: 20
+  forecast_horizons:
+  - 1
+  - 5
+  alphas:
+  - 0.01
+  - 0.05
+  - 0.1
+  regime_quantiles:
+  - 0.33
+  - 0.67
+  scale_lookback: 21
+  strategy_mode: full
+  num_eigenportfolios: 8
+  num_random_portfolios: 8
+  signal_window: 5
+  latent_dim: 128
+  batch_size: 128
+  epochs: 100
+  patience: 15
+  learning_rate_generator: 0.0002
+  learning_rate_discriminator: 0.0001
+  discriminator_steps: 1
+  generator_steps: 1
+  temperature: 0.1
+  dual_lambda: 1.0
+  score_weight: 10.0
+  gradient_clip: 5.0
+  noise_distribution: student_t
+  degrees_of_freedom: 5.0
+  validation_scenarios: 512
+  evaluation_scenarios_per_origin: 512
+  evaluation_scenarios_per_regime: 2048
+  wgan_gradient_penalty: 10.0
+  conditioning_mode: none
+  state_projection_dim: 64
+  conditioned_hidden_sizes:
+  - 256
+  - 512
+  - 512
+  correlation_loss_weight: 0.0
+  autocorrelation_loss_weight: 0.0
+  marginal_loss_weight: 0.0
+  quantile_consistency_weight: 0.0
+  max_autocorrelation_lag: 5
+  marginal_quantiles:
+  - 0.01
+  - 0.05
+  - 0.5
+  - 0.95
+  - 0.99
+  consistency_scenarios: 16
+  consistency_origins_per_batch: 16
+llmtime:
+  output_dir: artifacts/llmtime_financial_v1
+  history_length: 60
+  forecast_steps: 5
+  scale_alpha: 0.99
+  scale_beta: 0.3
+  basic_scaler: true
+  precision: 3
+  integer_digits: 2
+  clip_value: 25.0
+  flat_bins: 401
+  d_model: 96
+  n_heads: 4
+  n_layers: 3
+  d_ff: 384
+  dropout: 0.1
+  max_tokens: 512
+  batch_size: 64
+  epochs: 25
+  patience: 5
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  gradient_clip: 1.0
+  num_workers: 1
+  train_stride: 2
+  teacher_batch_size: 256
+  sampling_temperatures:
+  - 0.6
+  - 0.8
+  - 1.0
+  sampling_top_p:
+  - 0.9
+  - 1.0
+  tuning_origins: 48
+  tuning_samples: 32
+  evaluation_samples: 128
+  evaluation_batch_size: 32
+  evaluation_scenario_batch_size: 16
+  tuning_scenario_batch_size: 16
+  missingness_scenario_batch_size: 16
+  missing_fractions:
+  - 0.1
+  - 0.3
+  - 0.5
+  missingness_origins: 64
+  missingness_samples: 32
+performance_v140:
+  output_dir: artifacts/performance_v140
+  ewma_mean_decay: 0.985
+  ewma_variance_decay: 0.94
+  minimum_validation_improvement: 0.0025
+  minimum_confirmation_improvement: 0.0025
+  gate_calibration_fraction: 0.4
+  gate_confirmation_fraction_of_calibration: 0.5
+  coverage_penalty_weight: 0.02
+  patch_transformer:
+    lookback: 120
+    asset_tickers:
+    - SPY
+    - QQQ
+    - IWM
+    - TLT
+    - HYG
+    - GLD
+    - UUP
+    - USO
+    target_asset_features:
+    - ret_1d
+    - ret_5d
+    - ret_21d
+    - vol_21d
+    macro_features:
+    - vix
+    - baa_credit_spread
+    - treasury_2y
+    - treasury_10y
+    - fed_funds
+    patch_length: 12
+    patch_stride: 6
+    d_model: 128
+    n_heads: 4
+    n_layers: 3
+    d_ff: 384
+    dropout: 0.1
+    correction_limit: 1.25
+    batch_size: 128
+    epochs: 50
+    patience: 8
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+    gradient_clip: 1.0
+    correction_penalty: 0.003
+    train_stride: 1
+    num_workers: 1
+    evaluation_batch_size: 256
+  tailgan:
+    objectives:
+    - tailgan
+    - gom
+    strategy_mode: full
+    epochs: 70
+    patience: 10
+    batch_size: 96
+    latent_dim: 128
+    baseline_cov_lookback: 126
+    baseline_cov_decay: 0.97
+    baseline_cov_shrinkage: 0.2
+    baseline_hidden_size: 192
+    baseline_gru_layers: 2
+    baseline_initial_gate: 0.05
+    correlation_loss_weight: 0.2
+    autocorrelation_loss_weight: 0.1
+    marginal_loss_weight: 0.35
+    energy_loss_weight: 0.05
+    validation_correlation_weight: 0.02
+    validation_autocorrelation_weight: 0.02
+    validation_scenarios: 384
+    validation_scenarios_per_origin: 256
+    evaluation_scenarios_per_origin: 512
+    evaluation_scenarios_per_regime: 2048
+    generation_chunk_size: 128
+performance_v150:
+  output_dir: artifacts/performance_v150
+  long_panel_path: data/processed/market_panel_v150_long.npz
+  long_panel_metadata_path: data/processed/market_panel_v150_long_metadata.json
+  target_ticker: SPY
+  core_market_tickers:
+  - SPY
+  - QQQ
+  - IWM
+  - XLK
+  - XLF
+  - XLE
+  - XLI
+  - XLV
+  - XLY
+  - XLP
+  - XLU
+  optional_market_tickers:
+  - TLT
+  - IEF
+  - HYG
+  - LQD
+  - GLD
+  - USO
+  - UUP
+  - EEM
+  - XLRE
+  optional_fred_series:
+    DTWEXBGS: broad_dollar
+  fred_release_lag_business_days:
+    VIXCLS: 1
+    BAA10Y: 1
+    DGS2: 1
+    DGS10: 1
+    DFF: 1
+    NFCI: 3
+    STLFSI4: 3
+    DCOILWTICO: 2
+    DTWEXBGS: 2
+  french_factors:
+    ff3_daily:
+      url: https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip
+      filename: F-F_Research_Data_Factors_daily_CSV.zip
+    ff5_daily:
+      url: https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_5_Factors_2x3_daily_CSV.zip
+      filename: F-F_Research_Data_5_Factors_2x3_daily_CSV.zip
+    momentum_daily:
+      url: https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Momentum_Factor_daily_CSV.zip
+      filename: F-F_Momentum_Factor_daily_CSV.zip
+    release_lag_business_days: 1
+  structured_transformer:
+    lookback: 252
+    patch_lengths:
+    - 5
+    - 21
+    - 63
+    patch_strides:
+    - 5
+    - 10
+    - 21
+    d_model: 128
+    n_heads: 4
+    n_layers: 3
+    d_ff: 384
+    dropout: 0.15
+    location_limit: 0.35
+    log_scale_limit: 0.4
+    batch_size: 128
+    epochs: 60
+    patience: 10
+    learning_rate: 0.0002
+    weight_decay: 0.0002
+    gradient_clip: 1.0
+    parameter_penalty: 0.004
+    tail_weight: 2.0
+    train_stride: 1
+    num_workers: 1
+    evaluation_batch_size: 256
+  tail_factor_scale:
+    objectives:
+    - tailgan
+    - gom
+    strategy_mode: full
+    epochs: 80
+    patience: 14
+    batch_size: 128
+    latent_dim: 128
+    factor_rank: 4
+    hidden_size: 160
+    gru_layers: 2
+    initial_gate: 0.04
+    factor_scale_limit: 0.3
+    idio_scale_limit: 0.2
+    drift_limit: 0.08
+    skew_limit: 0.15
+    baseline_cov_lookback: 252
+    baseline_cov_decay: 0.985
+    baseline_cov_shrinkage: 0.15
+    correlation_loss_weight: 1.5
+    autocorrelation_loss_weight: 0.5
+    marginal_loss_weight: 2.0
+    energy_loss_weight: 0.1
+    validation_correlation_weight: 0.003
+    validation_autocorrelation_weight: 0.003
+    validation_scenarios: 256
+    validation_scenarios_per_origin: 128
+    evaluation_scenarios_per_origin: 256
+    evaluation_scenarios_per_regime: 1024
+    generation_chunk_size: 32
+  ensemble_gate:
+    minimum_selection_improvement: 0.0025
+    minimum_confirmation_improvement: 0.0025
+    selection_fraction: 0.5
+    tuning_fraction: 0.25
+    block_length: 10
+    bootstrap_repetitions: 2000
+    one_sided_confidence: 0.8
+    minimum_subblock_improvement: 0.0
+    residual_weights:
+    - 0.0
+    - 0.1
+    - 0.2
+    - 0.35
+    - 0.5
+    - 0.7
+    - 1.0
+    spread_scales:
+    - 0.9
+    - 1.0
+    - 1.1
+    - 1.25
+    - 1.5
+    offset_shrinkages:
+    - 0.0
+    - 0.25
+    - 0.5
+    - 0.75
+    - 1.0
+  common_origin_required: true
+performance_v160:
+  output_dir: artifacts/performance_v160
+  long_panel_path: data/processed/market_panel_v150_long.npz
+  long_panel_metadata_path: data/processed/market_panel_v150_long_metadata.json
+  common_origin_required: true
+  statistical_experts:
+    selection_origins: 1500
+    episodes: 6
+    worst_episode_weight: 0.35
+    l2_weight: 1.0e-7
+  structured_model:
+    lookback: 252
+    patch_lengths: [5, 21, 63]
+    patch_strides: [5, 10, 21]
+    channel_dim: 32
+    d_model: 128
+    n_heads: 4
+    n_layers: 3
+    d_ff: 384
+    dropout: 0.12
+    location_limit: 0.25
+    log_scale_limit: 0.30
+    tail_power_limit: 0.20
+    batch_size: 96
+    pretrain_epochs: 16
+    pretrain_stride: 2
+    pretrain_learning_rate: 0.0003
+    mask_probability: 0.20
+    pretrain_regime_weight: 0.25
+    pretrain_contrastive_weight: 0.10
+    epochs: 55
+    patience: 9
+    freeze_encoder_epochs: 2
+    learning_rate: 0.0002
+    encoder_learning_rate_multiplier: 0.25
+    weight_decay: 0.0002
+    gradient_clip: 1.0
+    parameter_penalty: 0.004
+    regime_auxiliary_weight: 0.05
+    tail_weight: 2.0
+    train_stride: 1
+    num_workers: 1
+    evaluation_batch_size: 192
+  tail_model:
+    objectives: [tailgan, gom]
+    strategy_mode: full
+    epochs: 70
+    patience: 12
+    minimum_epochs: 12
+    batch_size: 96
+    latent_dim: 128
+    learning_rate_generator: 0.0001
+    learning_rate_discriminator: 0.00005
+    discriminator_steps: 1
+    generator_steps: 1
+    gradient_clip: 1.0
+    factor_rank: 4
+    hidden_size: 160
+    gru_layers: 2
+    initial_gate: 0.03
+    factor_scale_limit: 0.25
+    idio_scale_limit: 0.15
+    drift_limit: 0.04
+    skew_limit: 0.12
+    baseline_cov_lookback: 252
+    baseline_cov_decay: 0.985
+    baseline_cov_shrinkage: 0.15
+    correlation_loss_weight: 1.25
+    autocorrelation_loss_weight: 0.40
+    marginal_loss_weight: 1.75
+    energy_loss_weight: 0.10
+    validation_correlation_weight: 0.003
+    validation_autocorrelation_weight: 0.003
+    validation_coverage_weight: 0.03
+    validation_score_rejection_weight: 0.02
+    validation_smoothing: 0.60
+    validation_scenarios: 256
+    validation_scenarios_per_origin: 128
+    evaluation_scenarios_per_origin: 256
+    evaluation_scenarios_per_regime: 1024
+    generation_chunk_size: 32
+    discriminator_spectral_normalization: true
+    discriminator_output_penalty: 0.0005
+    normalize_tail_score: true
+    tail_score_ema_decay: 0.98
+    tail_score_clip: 20.0
+    generator_ema_decay: 0.995
+  regime_gate:
+    minimum_selection_improvement: 0.0015
+    minimum_confirmation_improvement: 0.0015
+    selection_fraction: 0.45
+    tuning_fraction: 0.25
+    block_length: 10
+    bootstrap_repetitions: 2000
+    one_sided_confidence: 0.80
+    regime_count: 3
+    minimum_regime_samples: 18
+    confirmation_episodes: 4
+    minimum_positive_episode_fraction: 0.75
+    maximum_episode_degradation: -0.0025
+    maximum_regime_degradation: -0.005
+    maximum_risk_calibration_degradation: 0.01
+    residual_weights: [0.0, 0.05, 0.1, 0.2, 0.35, 0.5, 0.7]
+    spread_scales: [0.9, 1.0, 1.1, 1.25]
+    offset_shrinkages: [0.0, 0.25, 0.5, 0.75]
+performance_v170:
+  output_dir: artifacts/performance_v170
+  long_panel_path: data/processed/market_panel_v150_long.npz
+  long_panel_metadata_path: data/processed/market_panel_v150_long_metadata.json
+  common_origin_required: true
+  statistical_champion:
+    selection_origins: 1800
+    pool_fit_fraction: 0.55
+    blend_selection_end_fraction: 0.75
+    calibration_end_fraction: 0.85
+    pool_episodes: 6
+    pool_worst_episode_weight: 0.35
+    pool_l2_weight: 1.0e-7
+    blend_weights: [0.0, 0.1, 0.25, 0.5, 0.75, 1.0]
+    spread_scales: [0.95, 1.0, 1.05]
+    offset_shrinkages: [0.0, 0.25, 0.5]
+    block_length: 10
+    bootstrap_repetitions: 1500
+    one_sided_confidence: 0.80
+    confirmation_episodes: 4
+    minimum_confirmation_improvement: 0.001
+    minimum_positive_episode_fraction: 0.75
+    maximum_episode_degradation: -0.0025
+  probabilistic_regime:
+    threshold_quantiles: [0.55, 0.85]
+    persistence: 0.85
+    confidence_floor: 0.45
+  structured_model:
+    lookback: 252
+    patch_lengths: [5, 21, 63]
+    patch_strides: [5, 10, 21]
+    channel_dim: 32
+    d_model: 128
+    n_heads: 4
+    n_layers: 3
+    d_ff: 384
+    dropout: 0.12
+    location_limit: 0.20
+    log_scale_limit: 0.25
+    tail_power_limit: 0.15
+    batch_size: 96
+    pretrain_epochs: 20
+    pretrain_stride: 2
+    pretrain_learning_rate: 0.00025
+    mask_probability: 0.20
+    pretrain_regime_weight: 0.20
+    pretrain_future_weight: 0.35
+    pretrain_contrastive_weight: 0.10
+    epochs: 50
+    patience: 9
+    freeze_encoder_epochs: 3
+    learning_rate: 0.00018
+    encoder_learning_rate_multiplier: 0.20
+    weight_decay: 0.0002
+    gradient_clip: 1.0
+    parameter_penalty: 0.005
+    baseline_guard_weight: 0.35
+    regime_auxiliary_weight: 0.04
+    tail_weight: 2.0
+    train_stride: 1
+    num_workers: 1
+    evaluation_batch_size: 192
+  tail_model:
+    objectives: [tailgan, gom]
+    strategy_mode: full
+    epochs: 65
+    patience: 12
+    minimum_epochs: 12
+    batch_size: 96
+    latent_dim: 128
+    learning_rate_generator: 0.0001
+    learning_rate_discriminator: 0.00005
+    discriminator_steps: 1
+    generator_steps: 1
+    gradient_clip: 1.0
+    factor_rank: 4
+    hidden_size: 160
+    gru_layers: 2
+    initial_gate: 0.025
+    factor_scale_limit: 0.22
+    idio_scale_limit: 0.14
+    drift_limit: 0.035
+    skew_limit: 0.10
+    baseline_cov_lookback: 252
+    baseline_cov_decay: 0.985
+    baseline_cov_shrinkage: 0.15
+    correlation_loss_weight: 1.25
+    autocorrelation_loss_weight: 0.40
+    marginal_loss_weight: 1.75
+    energy_loss_weight: 0.10
+    validation_correlation_weight: 0.003
+    validation_autocorrelation_weight: 0.003
+    validation_coverage_weight: 0.03
+    validation_score_rejection_weight: 0.02
+    validation_smoothing: 0.65
+    validation_scenarios: 256
+    validation_scenarios_per_origin: 128
+    evaluation_scenarios_per_origin: 256
+    evaluation_scenarios_per_regime: 1024
+    generation_chunk_size: 32
+    discriminator_spectral_normalization: true
+    discriminator_output_penalty: 0.0005
+    normalize_tail_score: true
+    tail_score_ema_decay: 0.98
+    tail_score_clip: 20.0
+    generator_ema_decay: 0.995
+    family_overrides:
+      tailgan:
+        initial_gate: 0.025
+        factor_scale_limit: 0.22
+        idio_scale_limit: 0.14
+        drift_limit: 0.035
+        skew_limit: 0.10
+      gom:
+        initial_gate: 0.015
+        factor_scale_limit: 0.16
+        idio_scale_limit: 0.10
+        drift_limit: 0.020
+        skew_limit: 0.06
+        marginal_loss_weight: 2.0
+        correlation_loss_weight: 1.4
+  probabilistic_gate:
+    minimum_selection_improvement: 0.0015
+    minimum_tuning_improvement: 0.0
+    minimum_confirmation_improvement: 0.0015
+    selection_fraction: 0.45
+    tuning_fraction: 0.25
+    block_length: 10
+    bootstrap_repetitions: 2000
+    one_sided_confidence: 0.80
+    minimum_regime_samples: 18
+    confirmation_episodes: 4
+    minimum_positive_episode_fraction: 0.75
+    maximum_episode_degradation: -0.0025
+    maximum_regime_degradation: -0.005
+    maximum_risk_calibration_degradation: 0.01
+    residual_weights: [0.0, 0.05, 0.1, 0.2, 0.35, 0.5, 0.7]
+    seed_weight_shrinkage: 0.15
+    maximum_seed_weight: 0.80
+    seed_concentration_penalty: 1.0e-5
+    minimum_effective_seed_count: 1.35
+    confidence_floor: 0.45
+    family_residual_caps:
+      structured: [0.20, 0.35, 0.50]
+      tailgan: [0.10, 0.25, 0.45]
+      gom: [0.10, 0.30, 0.70]
