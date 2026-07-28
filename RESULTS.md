@@ -2,7 +2,7 @@
 
 ## Headline outcomes
 
-The common benchmark in every fold is the frozen EWMA Student-t quantile forecast. The adaptive statistical pool was not admitted, so the statistical champion remained exactly equal to the frozen anchor.
+The common benchmark in every fold is the EWMA Student-t quantile forecast.
 
 | Fold | Family | Final mean pinball | Improvement vs EWMA | Decision |
 |---|---|---:|---:|---|
