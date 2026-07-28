@@ -2,9 +2,6 @@
 
 This project implements a probabilistic framework to forecast SPY returns using an EWMA Student-t benchmark, a self-supervised patch Transformer, a stabilized Tail-GAN, and an adaptive generative objective model (GOM).
 
-<p align="center">
-  <img src="docs/figures/figure_1_architecture.png" width="900" alt="RiskGraph forecasting architecture">
-</p>
 
 ## Key development results
 
