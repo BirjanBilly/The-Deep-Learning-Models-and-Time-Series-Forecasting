@@ -1,8 +1,6 @@
 # RiskGraph: Regime-Gated Generative Models for Financial Forecasting
 
-A research implementation for **probabilistic forecasting of SPY returns** using a frozen EWMA Student-t benchmark, a self-supervised patch Transformer, a stabilized Tail-GAN, and a stress-shrunk generative objective model (GOM).
-
-The project is designed around a simple principle: a flexible model may modify the statistical forecast only when a chronological, pre-test gate supports the change. Rejected models revert exactly to the statistical benchmark.
+This project implements a probabilistic framework to forecast SPY returns using an EWMA Student-t benchmark, a self-supervised patch Transformer, a stabilized Tail-GAN, and an adaptive generative objective model (GOM).
 
 <p align="center">
   <img src="docs/figures/figure_1_architecture.png" width="900" alt="RiskGraph forecasting architecture">
