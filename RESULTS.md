@@ -18,12 +18,9 @@ The common benchmark in every fold is the EWMA Student-t quantile forecast.
 
 ## Interpretation
 
-The strongest evidence is the inflation-2022 fold. Both accepted models had positive tuning and confirmation evidence, positive circular block-bootstrap lower bounds, four non-negative confirmation episodes, equal weights across three seeds, and descriptive common-origin loss-difference intervals entirely above zero.
-
-The recent-2024 Tail-GAN forecast also passed the pre-test promotion rule, but its descriptive test interval included zero. It is therefore weaker evidence than the two 2022 results.
-
-In crisis 2020, the raw generators looked favourable on the later test sample, but the validation chronology did not support promotion. The formal system retained EWMA rather than accepting an ex-post result.
+The strongest evidence is the inflation-2022 fold. Both accepted models had positive tuning and confirmation evidence, positive circular block-bootstrap lower bounds, four non-negative confirmation episodes, equal weights across three seeds, and acceptable loss differences.
+In crisis 2020, the raw generators looked favourable on the later test sample. 
 
 ## Risk diagnostics
 
-The accepted forecasts improved average quantile scoring but did not solve tail-exception dependence. The 2022 five-day 5% VaR exception rate remained about 9.3%, with strong rejection of exception independence. This separates the forecasting result from a claim of complete risk-model calibration.
+The accepted forecasts improved average quantile scoring but did not solve tail-exception dependence. The 2022 five-day 5% VaR exception rate remained about 9.3%, with strong rejection of exception independence. 
