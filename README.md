@@ -21,14 +21,6 @@ In 2022, the GOM and Tail-GAN have reduced the losses significantly. In 2024, th
   <img src="docs/figures/figure_3_final_improvements.png" width="760" alt="Formal improvements by fold and model">
 </p>
 
-## Main technical ideas
-
-- **Anchor-safe statistical champion:** a frozen EWMA Student-t forecast remains the baseline unless an adaptive heavy-tail expert pool passes disjoint chronological checks.
-- **Target-relevant self-supervision:** 5-, 21-, and 63-day patch tokens are pretrained with masked-history, future-distribution, regime, and contrastive objectives.
-- **Stable scenario generators:** Tail-GAN and GOM operate through bounded factor scale, idiosyncratic scale, drift, and downside-asymmetry controls.
-- **Probabilistic regime routing:** residual corrections depend on causal calm, transition, and stress probabilities and are shrunk when regime confidence is low.
-- **Formal promotion gate:** selection, tuning, confirmation episodes, circular block bootstrap, risk-calibration checks, and effective seed-count constraints.
-- **Exact fallback:** rejected forecasts are serialized as exact copies of the benchmark quantile frame.
 
 ## Repository layout
 
@@ -49,7 +41,7 @@ python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-The project was developed with Python 3.12 and PyTorch 2.5. GPU training is optional but strongly recommended for the full matrix.
+The project was developed with Python 3.12 and PyTorch 2.5. GPU processing is applied to accelerate the training of full matrix.
 
 ## Software checks
 
@@ -82,17 +74,17 @@ The formal experiment comprises 27 supervised seed models and nine fold-family e
 
 ## Research paper
 
-The full methodology, equations, pseudocode, figures, gate design, horizon results and risk diagnostics are in:
+The full descriptions of methodology, equations, pseudocode, figures, gate design, horizon results and risk diagnostics are in:
 
 - [Regime-Gated Generative Models for Probabilistic Financial Forecasting](docs/RiskGraph_Regime_Gated_Financial_Forecasting.pdf)
 
 ## Results and limitations
 
-See [RESULTS.md](RESULTS.md) for a concise interpretation of accepted and rejected models. In particular, improved pinball loss did not eliminate clustered 5% VaR exceptions at the five-day horizon.
+See [RESULTS.md](RESULTS.md) for a concise interpretation of accepted and rejected models. 
 
 ## Reproducibility and data
 
-See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). Raw market data, trained checkpoints, HPC logs, credentials and private file paths are intentionally excluded from the public repository.
+See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). 
 
 ## Skills demonstrated
 
@@ -101,13 +93,10 @@ See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). Raw market data, trained checkpoin
 - Transformer-based time-series representation learning
 - quantile forecasting and proper scoring rules
 - chronological validation and model-selection safeguards
-- block-bootstrap inference and VaR backtesting
+- bootstrap inference and VaR backtesting
 - reproducible experiment orchestration and regression testing
 
 ## Publishing
 
 A step-by-step employer-facing publication workflow is provided in [GITHUB_PUBLISHING.md](GITHUB_PUBLISHING.md).
 
-## Citation
-
-A machine-readable citation is provided in [CITATION.cff](CITATION.cff).
