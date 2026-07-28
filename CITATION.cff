@@ -3,7 +3,7 @@ message: "Please cite this software and accompanying report if you use the imple
 title: "RiskGraph: Regime-Gated Generative Models for Probabilistic Financial Forecasting"
 version: 1.7.1
 type: software
-abstract: "An EWMA-anchored probabilistic forecasting framework combining self-supervised Transformers, Tail-GAN, stress-shrunk GOM, chronological model promotion, and financial risk diagnostics."
+abstract: "A probabilistic forecasting framework combining self-supervised Transformers, Tail-GAN, stress-shrunk GOM, chronological model promotion, and financial risk diagnostics."
 keywords:
   - financial time series
   - generative adversarial networks
