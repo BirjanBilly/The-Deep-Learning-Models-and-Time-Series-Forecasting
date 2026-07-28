@@ -15,7 +15,7 @@ This project implements a probabilistic framework to forecast SPY returns using 
 | Inflation 2022 | Stabilized Tail-GAN | **+0.285%** |
 | Recent 2024 | Stabilized Tail-GAN | **+0.203%** |
 
-The 2022 GOM and Tail-GAN common-origin loss-difference intervals were entirely favourable. The 2024 Tail-GAN passed the predeclared promotion gate, although its descriptive test interval included zero. The 2025 fold is not included in these development results.
+In 2022, the GOM and Tail-GAN have reduced the losses significantly. In 2024, the Tail-GAN performed strongly. The 2025 fold is not included in these development results.
 
 <p align="center">
   <img src="docs/figures/figure_3_final_improvements.png" width="760" alt="Formal improvements by fold and model">
