@@ -1,6 +1,8 @@
 # RiskGraph: Regime-Gated Generative Models for Financial Forecasting
 
 This project implements a probabilistic framework to forecast SPY returns using an EWMA Student-t benchmark, a self-supervised patch Transformer, a stabilized Tail-GAN, and an adaptive generative objective model (GOM).
+The project was developed with Python 3.12 and PyTorch 2.5. GPU processing is applied to accelerate the training of full matrix.
+The experiment trained 27 supervised seed models and got nine fold-family ensemble decisions.
 
 
 ## Key development results
@@ -38,37 +40,6 @@ python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-The project was developed with Python 3.12 and PyTorch 2.5. GPU processing is applied to accelerate the training of full matrix.
-
-## Software checks
-
-```bash
-python -m compileall -q src scripts tests
-python -m pytest tests/test_performance_v170.py -q -p no:cacheprovider
-python scripts/run_performance_v170_smoke.py --device cpu
-```
-
-## Development-fold experiment
-
-Prepare the market panel using the data scripts and then run:
-
-```bash
-CONFIG=configs/financial_risk_graph_v170.yaml \
-FOLDS=development \
-TRAIN_DEVICE=auto \
-EVAL_DEVICE=auto \
-bash scripts/run_performance_v170_research.sh
-```
-
-Verify the completed matrix:
-
-```bash
-python scripts/verify_performance_v170.py \
-  --config configs/financial_risk_graph_v170.yaml
-```
-
-The formal experiment comprises 27 supervised seed models and nine fold-family ensemble decisions.
-
 ## Research paper
 
 The full descriptions of methodology, equations, pseudocode, figures, gate design, horizon results and risk diagnostics are in:
@@ -92,8 +63,3 @@ See [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
 - chronological validation and model-selection safeguards
 - bootstrap inference and VaR backtesting
 - reproducible experiment orchestration and regression testing
-
-## Publishing
-
-A step-by-step employer-facing publication workflow is provided in [GITHUB_PUBLISHING.md](GITHUB_PUBLISHING.md).
-
