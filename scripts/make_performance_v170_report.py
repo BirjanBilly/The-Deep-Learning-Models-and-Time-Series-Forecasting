@@ -83,7 +83,7 @@ repeatable value while preserving the frozen v1.5.4 EWMA Student-t anchor?
 
 {_markdown(acceptance)}
 
-## Interpretation rules
+## Some notes
 
 - A rejected model is exactly the statistical champion on every quantile and origin.
 - An adaptive statistical pool is not admitted merely because it beats the anchor in-sample.
