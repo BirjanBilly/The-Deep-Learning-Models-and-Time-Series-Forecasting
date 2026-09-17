@@ -27,9 +27,14 @@ The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for 
 </p>
 
 
+How the Patch Transformer Learns Market Structure:
+
 <p align="center">
   <img src="docs/figures/figureoftransformernew.png" width="760" alt="How the Patch Transformer Learns Market Structure">
 </p>
+
+
+Two Scenario Generators: How the GOM model and TailGAN model function:
 
 <p align="center">
   <img src="docs/figures/figureofgomandtailgannew.png" width="760" alt="Two Scenario Generators: How the GOM model and TailGAN model function">
