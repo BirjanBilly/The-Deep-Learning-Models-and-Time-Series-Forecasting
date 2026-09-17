@@ -1,24 +1,31 @@
 # RiskGraph: Regime-Gated Generative Models for Financial Forecasting
 
-This project implements a probabilistic framework to forecast SPY returns using an EWMA Student-t benchmark, a self-supervised patch Transformer, a stabilized Tail-GAN, and an adaptive generative objective model (GOM).
-The project was developed with Python 3.12 and PyTorch 2.5. GPU processing is applied to accelerate the training of full matrix.
-The experiment has trained 27 supervised seed models and drawn nine ensemble decisions.
+This project implements probabilistic frameworks to forecast SPY returns. It combines an EWMA Student-t statistical benchmark with three neural forecasting models: a self-supervised multi-resolution patch Transformer, a constrained Tail-GAN, and a Generative Objective Model (GOM). 
+The models were implemented in Python 3.12 and PyTorch 2.5, with GPU acceleration for computationally intensive neural-network training and matrix operations.
+Across three development folds (2020, 2022, and 2024), this project evaluates three neural-model families, each trained with three random seeds. This gives 27 development seed-model runs and nine ensemble-level promotion decisions. A separate final experiment evaluates the forecasting framework on the previously unseen 2025 holdout period.
 
 
 ## Key development results
 
-| Development fold | Formal result | Mean pinball improvement over frozen EWMA |
+| Development fold | Formal result | Relative reduction in mean pinball loss compared to Student-t EWMA |
 |---|---|---:|
 | Crisis 2020 | EWMA Student-t retained | 0.000% |
 | Inflation 2022 | Stress-shrunk GOM | **+0.408%** |
 | Inflation 2022 | Stabilized Tail-GAN | **+0.285%** |
 | Recent 2024 | Stabilized Tail-GAN | **+0.203%** |
 
-In 2022, the GOM and Tail-GAN have reduced the losses significantly. In 2024, the Tail-GAN performed strongly.
+In the 2022 development fold, the GOM and Tail-GAN reduced mean pinball loss relative to the EWMA benchmark by 0.408% and 0.285%, respectively. Both models passed the predefined promotion criteria, and their reported 95% confidence intervals for average daily loss reduction remained positive.
+
+In the 2024 development fold, Tail-GAN passed the pre-test promotion criteria and achieved a 0.203% reduction in mean pinball loss relative to EWMA.
 
 <p align="center">
   <img src="docs/figures/figure_3_final_improvements.png" width="760" alt="Formal improvements by fold and model">
 </p>
+
+The final experiment evaluates RiskGraph on 226 previously unseen forecast origins in 2025, using models fitted on data through 2023 and promotion decisions determined exclusively from 2024 validation evidence.
+The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for the Transformer, 1.790% for Tail-GAN, and 1.770% for GOM relative to EWMA. However, none of these candidates satisfied the predefined promotion criteria based on 2024 validation data. Consequently, the formal 2025 forecasting system retained the statistical benchmark, with no neural-model improvement in its deployed forecasts.
+This distinction between raw predictive performance and validation-approved forecasting is central to RiskGraph: improvements observed retrospectively are not sufficient grounds for activating a neural model.
+
 
 
 ## Repository layout
@@ -42,17 +49,17 @@ python -m pip install -e .
 
 ## Research paper
 
-The full descriptions of methodology, equations, pseudocode, figures, gate design, horizon results and risk diagnostics are in:
+For a detailed explanation of the forecasting architectures, mathematical formulations, training objectives, chronological evaluation protocol, regime-gating algorithm, empirical findings, and Value-at-Risk backtesting, please see the research paper:
 
 - [Regime-Gated Generative Models for Probabilistic Financial Forecasting](docs/RiskGraph_Regime_Gated_Financial_Forecasting.pdf)
 
 ## Results and limitations
 
-See [RESULTS.md](RESULTS.md) for a concise interpretation of accepted and rejected models. 
+Please see [RESULTS.md](RESULTS.md) for a concise interpretation of accepted and rejected models. 
 
 ## Reproducibility and data
 
-See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). 
+The repository provides implementation code, experiment configurations, evaluation scripts, and documentation for reconstructing the forecasting pipeline. Raw market data and trained model checkpoints are not distributed because of data-licensing restrictions. Please see [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for data requirements, environment setup, and reproduction instructions.
 
 ## Skills demonstrated
 
