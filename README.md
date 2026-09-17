@@ -26,13 +26,7 @@ The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for 
   <img src="docs/figures/figureofglance.png" width="760" alt="The RiskGraph framework at a glance">
 </p>
 
-<p align="center">
-  <img src="docs/figures/figureoftransformer.png" width="760" alt="How the Patch Transformer Learns Market Structure">
-</p>
 
-<p align="center">
-  <img src="docs/figures/figureofgomandtailgan.png" width="760" alt="Two Scenario Generators: How the GOM model and TailGAN model function">
-</p>
 
 
 
