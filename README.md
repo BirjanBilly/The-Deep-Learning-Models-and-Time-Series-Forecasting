@@ -18,13 +18,21 @@ In the 2022 development fold, the GOM and Tail-GAN reduced mean pinball loss rel
 
 In the 2024 development fold, Tail-GAN passed the pre-test promotion criteria and achieved a 0.203% reduction in mean pinball loss relative to EWMA.
 
-<p align="center">
-  <img src="docs/figures/figure_3_final_improvements.png" width="760" alt="Formal improvements by fold and model">
-</p>
-
 The final experiment evaluates 226 previously unseen forecast origins in 2025, using models fitted on data through 2023 and promotion decisions determined exclusively from 2024 validation evidence.
 The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for the Transformer, 1.790% for Tail-GAN, and 1.770% for GOM relative to the EWMA baseline. 
 
+
+<p align="center">
+  <img src="docs/figures/figureofglance.png" width="760" alt="The RiskGraph framework at a glance">
+</p>
+
+<p align="center">
+  <img src="docs/figures/figureoftransformer.png" width="760" alt="How the Patch Transformer Learns Market Structure">
+</p>
+
+<p align="center">
+  <img src="docs/figures/figureofgomandtailgan.png" width="760" alt="Two Scenario Generators: How the GOM model and TailGAN model function">
+</p>
 
 
 
