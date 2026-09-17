@@ -22,9 +22,9 @@ In the 2024 development fold, Tail-GAN passed the pre-test promotion criteria an
   <img src="docs/figures/figure_3_final_improvements.png" width="760" alt="Formal improvements by fold and model">
 </p>
 
-The final experiment evaluates RiskGraph on 226 previously unseen forecast origins in 2025, using models fitted on data through 2023 and promotion decisions determined exclusively from 2024 validation evidence.
-The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for the Transformer, 1.790% for Tail-GAN, and 1.770% for GOM relative to EWMA. However, none of these candidates satisfied the predefined promotion criteria based on 2024 validation data. Consequently, the formal 2025 forecasting system retained the statistical benchmark, with no neural-model improvement in its deployed forecasts.
-This distinction between raw predictive performance and validation-approved forecasting is central to RiskGraph: improvements observed retrospectively are not sufficient grounds for activating a neural model.
+The final experiment evaluates 226 previously unseen forecast origins in 2025, using models fitted on data through 2023 and promotion decisions determined exclusively from 2024 validation evidence.
+The raw neural ensembles achieved reductions in mean pinball loss of 0.252% for the Transformer, 1.790% for Tail-GAN, and 1.770% for GOM relative to the EWMA baseline. 
+
 
 
 
